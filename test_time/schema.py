@@ -11,8 +11,9 @@ fastapi的主要特点
         答：使用 Pydantic 模型不仅可以验证请求，还能作为响应模型，指定response_model来自动序列化输出数据并符合指定模式。
 """
 
-from pydantic import BaseModel
-from typing import List
+from pydantic import BaseModel, EmailStr
+from datetime import datetime
+from typing import List, Optional
 
 
 class Item(BaseModel):
@@ -26,3 +27,21 @@ class BannersDate(BaseModel):
 
 class BannersResponse(BaseModel):
     data: List[BannersDate]
+
+
+class UserBase(BaseModel):
+    email: EmailStr
+    name: str
+
+
+class UserCreate(BaseModel):
+    pass
+
+
+class UserResponse(UserBase):
+    id: int
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+
+    class Config:
+        orm_mode = True

@@ -9,11 +9,20 @@ FastAPI 是一个现代、高性能的 Python Web 框架，
 """
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 import test_time
 
 
 app = FastAPI(title="FastAPIDemo")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(test_time.router, prefix="/api/test", tags=["demo_test"])
 
